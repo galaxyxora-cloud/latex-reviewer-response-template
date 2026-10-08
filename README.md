@@ -132,6 +132,29 @@ We have clarified the discussion of the related work~\cite{reference_key}.
 
 主文件末尾的 `\writeresponsebibliography` 只为 BibTeX 准备引用编号，不会输出文末参考文献总表；请保留它以及相应的加载命令。
 
+### 按出版社要求调整参考文献格式
+
+模板默认使用 **`elsarticle-num.bst`**。你可以将其替换为目标出版社或期刊提供的 `.bst` 文件，以满足不同的参考文献格式要求。也可以复制并修改 `elsarticle-num.bst`，另存为自定义样式，调整作者姓名、期刊名称、卷期页码、标点等输出格式。
+
+更换样式的方法：
+
+1. 将目标 `.bst` 文件放在主文件同目录，或安装到 TeX 发行版中。
+2. 在 `response_template.tex` 末尾找到默认设置：
+
+   ```latex
+   \bibliographystyle{elsarticle-num}
+   ```
+
+   将其中的样式名称替换为目标文件名，省略 `.bst` 后缀。例如，使用 `publisher-style.bst` 时改为：
+
+   ```latex
+   \bibliographystyle{publisher-style}
+   ```
+
+3. 重新执行完整的 pdfLaTeX → BibTeX → pdfLaTeX → pdfLaTeX 编译流程，更新各回复下方的文献格式。
+
+当前模板使用数字编号引用，应选用兼容的数值型 BibTeX 样式；如需作者—年份格式，还需相应调整引用与编号逻辑。
+
 ## 展示修改后的正文
 
 在回复内嵌入 `revisedtext` 环境，可显示红色修改摘录：
