@@ -1,0 +1,261 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{soul}
+\usepackage{needspace}
+\usepackage{float}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{algorithm}
+
+\usepackage{xurl}
+\makeatletter
+\let\responseplainbibitem\@bibitem
+\let\responseplainlbibitem\@lbibitem
+\makeatother
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=blue, urlcolor=blue]{hyperref}
+\usepackage{cleveref}
+\usepackage{bibentry}
+\usepackage{etoolbox}
+\usepackage{xparse}
+\usepackage{letltxmacro}
+
+\newcommand{\hlc}[2][yellow]{{
+		\sethlcolor{#1}
+		\hl{#2}
+}}
+
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+\setlength{\emergencystretch}{3em}
+
+\newcounter{reviewer}
+
+\crefname{reviewer}{Reviewer}{Reviewers}
+\Crefname{reviewer}{Reviewer}{Reviewers}
+
+\newcounter{commentCount}
+\renewcommand{\theHcommentCount}{\thereviewer.\arabic{commentCount}}
+\newcommand{\ReviewerSection}[1]{
+	\setcounter{reviewer}{#1}
+	\addtocounter{reviewer}{-1}
+	\refstepcounter{reviewer}
+
+	\subsection*{Reviewer \##1}
+	\setcounter{commentCount}{0}
+}
+
+\newenvironment{reviewcomment}
+{
+	\Needspace{5\baselineskip}
+\refstepcounter{commentCount}
+	\vspace{1em}
+	\noindent
+
+	\textbf{\textcolor{NavyBlue}{Comment \thecommentCount:}}
+	\par
+
+	\color{NavyBlue}\itshape
+	\begin{quote}\leavevmode\ignorespaces
+	}
+	{
+	\end{quote}
+	\vspace{0.2em}
+}
+
+\makeatletter
+\newcommand{\loadresponsebibliography}{\begingroup\let\bibliography\BR@bib\nobibliography*\endgroup}
+\newcommand{\writeresponsebibliography}{\begingroup\let\bibliography\BR@bib\let\@bibitem\responseplainbibitem\let\@lbibitem\responseplainlbibitem\nobibliography{ref}\endgroup}
+\makeatother
+\newif\ifresponsedocumentcited
+\newif\ifcollectresponsecitations
+\newcommand{\responsecitationkeys}{}
+\newcommand{\recordresponsecitation}[1]{\ifinlist{#1}{\responsecitationkeys}{}{\listadd{\responsecitationkeys}{#1}}}
+\LetLtxMacro{\responseoriginalcite}{\cite}
+\RenewDocumentCommand{\cite}{o m}{\global\responsedocumentcitedtrue\ifcollectresponsecitations\forcsvlist{\recordresponsecitation}{#2}\fi\IfNoValueTF{#1}{\responseoriginalcite{#2}}{\responseoriginalcite[#1]{#2}}}
+\newcommand{\responsereferenceitem}[1]{\item[\responseoriginalcite{#1}]\ifcsundef{responsereferenceanchor@#1}{\csgdef{responsereferenceanchor@#1}{}\hypertarget{cite.#1}{}}{} \bibentry{#1}.}
+\newcommand{\printresponsereferences}{\ifx\responsecitationkeys\empty\else\collectresponsecitationsfalse\par\medskip\noindent\textbf{References cited in this response:}\par\begin{itemize}[leftmargin=2.5em,label={},itemsep=4pt,parsep=0pt,topsep=4pt]\forlistloop{\responsereferenceitem}{\responsecitationkeys}\end{itemize}\fi}
+
+\newenvironment{author_response}
+{
+    \def\responsecitationkeys{}
+    \collectresponsecitationstrue
+    \par\Needspace{3\baselineskip}
+    \noindent\textbf{Response \thecommentCount:}\par
+    \color{black}\normalfont
+    \begin{quote}\leavevmode\ignorespaces
+}
+{
+    \printresponsereferences
+    \end{quote}
+    \vspace{1em}
+}
+
+\newenvironment{revisedtext}
+{
+	\par\vspace{0.3em}
+	\noindent
+	\small\textbf{\textit{Changes in manuscript:}}
+	\par
+	\color{Red}
+	\begin{quote}\leavevmode\ignorespaces
+		\itshape
+	}
+	{
+	\end{quote}
+	\color{black}
+	\vspace{0.3em}
+}
+
+\newlist{rlist}{enumerate}{2}
+\setlist[rlist]{label=\roman*), leftmargin=*, noitemsep, topsep=0pt}
+
+\newenvironment{generalcomment}
+{
+    \vspace{1em}
+    \noindent\textbf{\textcolor{NavyBlue}{General assessment:}}\par
+    \color{NavyBlue}\itshape
+    \begin{quote}\leavevmode\ignorespaces
+}
+{
+    \end{quote}
+    \vspace{0.2em}
+}
+
+\newenvironment{general_response}
+{
+    \noindent\textbf{Response to general assessment:}\par
+    \color{black}\normalfont
+    \begin{quote}\leavevmode\ignorespaces
+}
+{
+    \end{quote}
+    \vspace{1em}
+}
+
+\begin{document}
+\IfFileExists{\jobname.bbl}{\loadresponsebibliography}{}
+
+\begin{center}
+    {\LARGE \textbf{Response to Reviewers and Summary of Revisions}}\\[6pt]
+    {\large Title: \textit{``Title''}}\\[4pt]
+    {\large Authors: Authors}\\[4pt]
+\end{center}
+
+\noindent\textbf{Dear Editor and Reviewers,}
+
+\vspace{0.5em}
+We sincerely thank the editor and reviewers for the time and effort devoted to evaluating our manuscript, entitled \textit{``Title.''} Your constructive comments and suggestions provide valuable guidance for improving the clarity, presentation, and evaluation of our work.
+
+This letter presents the reviewers' comments together with our point-by-point responses. For ease of reference, the reviewer comments are reproduced in \textcolor{NavyBlue}{blue}, and our responses are given in black. Where included, excerpts of revised manuscript text are shown in \textcolor{Red}{red}.
+
+\vspace{1em}
+\section*{Summary of Revisions}
+
+\begin{figure}[H]
+    \centering
+    \IfFileExists{fig1.png}
+        {\includegraphics[width=0.75\textwidth]{fig1.png}}
+        {\fbox{\parbox[c][0.18\textheight][c]{0.73\textwidth}{\centering Figure}}}
+    \caption{Summary of revisions.}
+    \label{fig0}
+\end{figure}
+
+\section*{Detailed Point-by-Point Responses}
+The comments from \textbf{\Cref{S1}, \Cref{S2}, and \Cref{S3}} are reproduced below.
+
+\newpage
+\ReviewerSection{1}
+\label{S1}
+\begin{generalcomment}
+\end{generalcomment}
+\begin{general_response}
+We thank the reviewer for the careful assessment of our manuscript and the constructive suggestions. Our responses to the specific comments are provided below.
+\end{general_response}
+
+% Reviewer 1, Comment 1
+\begin{reviewcomment}
+\end{reviewcomment}
+\begin{author_response}
+\end{author_response}
+
+% Reviewer 1, Comment 2
+\begin{reviewcomment}
+\end{reviewcomment}
+\begin{author_response}
+\end{author_response}
+
+\newpage
+\ReviewerSection{2}
+\label{S2}
+\begin{generalcomment}
+\end{generalcomment}
+\begin{general_response}
+We thank the reviewer for the careful assessment of our manuscript and the constructive suggestions. Our responses to the specific comments are provided below.
+\end{general_response}
+
+% Reviewer 2, Comment 1
+\begin{reviewcomment}
+\end{reviewcomment}
+\begin{author_response}
+\end{author_response}
+
+% Reviewer 2, Comment 2
+\begin{reviewcomment}
+\end{reviewcomment}
+\begin{author_response}
+\end{author_response}
+
+\newpage
+\ReviewerSection{3}
+\label{S3}
+\begin{generalcomment}
+\end{generalcomment}
+\begin{general_response}
+We thank the reviewer for the careful assessment of our manuscript and the constructive suggestions. Our responses to the specific comments are provided below.
+\end{general_response}
+
+% Reviewer 3, Comment 1
+\begin{reviewcomment}
+\end{reviewcomment}
+\begin{author_response}
+\end{author_response}
+
+% Reviewer 3, Comment 2
+\begin{reviewcomment}
+\end{reviewcomment}
+\begin{author_response}
+\end{author_response}
+
+\newpage
+\section*{Conclusion}
+We sincerely thank the editor and reviewers again for their careful assessment and constructive feedback. Your suggestions have helped us identify ways to clarify the presentation and strengthen the discussion of our work.
+
+We hope that this response letter and the accompanying manuscript provide a clear account of how the reviewers' concerns have been considered. We appreciate your further consideration of our manuscript.
+
+\vspace{1em}
+\noindent
+Sincerely,\\[4pt]
+\textbf{Authors}\\[4pt]
+Affiliation\\
+Institution, City, Country\\
+Corresponding author: Author\\
+Email: Email
+
+\ifresponsedocumentcited
+    \bibliographystyle{elsarticle-num}
+    \writeresponsebibliography
+\fi
+
+\end{document}
