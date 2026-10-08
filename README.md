@@ -162,4 +162,8 @@ Revised manuscript text.
 
 此项目提供通用回复信模板与示例版式。具体审稿意见、论文数据和个人联系方式由使用者填写。模板预览展示默认通用内容。
 
-欢迎通过 Issues 提交模板使用问题，或通过 Pull Requests 改进排版与文献处理。
+欢迎通过 Pull Requests 改进排版与文献处理。
+
+如果你喜欢这个模板，欢迎用发财的小手点一个 ⭐ Star，感谢支持！
+
+模板使用过程中有任何问题，都欢迎在 [Issues](https://github.com/galaxyxora-cloud/latex-reviewer-response-template/issues) 中提问。
